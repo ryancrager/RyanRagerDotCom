@@ -3,29 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ryan.OS Welcome</title>
+  <title>Terminal Leave Countdown</title>
   <style>
-    body { background: white; color: black; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 20vh 16px 0; }
-    #countdown { font-size: clamp(20px, 5vw, 40px); }
+    body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: white; color: black; font-family: Arial, sans-serif; text-align: center; }
+    main { padding: 24px; }
+    h1 { font-size: clamp(2rem, 5vw, 4rem); margin: 0 0 32px; }
+    #countdown { font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.5; }
+    #countdown div { white-space: nowrap; }
   </style>
 </head>
 <body>
-  <h1>Terminal Leave</h1>
-  <div id="countdown" aria-live="off"></div>
+  <main>
+    <h1>Terminal Leave</h1>
+    <div id="countdown" aria-live="off">
+      <div id="days">— Days</div>
+      <div id="hours">— Hours</div>
+      <div id="minutes">— Minutes</div>
+      <div id="seconds">— Seconds</div>
+    </div>
+  </main>
   <script>
-    // Change only this date and time if needed (ISO format with timezone offset).
-    const retirementDate = new Date('2028-09-15T00:00:00-06:00');
-    const output = document.getElementById('countdown');
-
+    // December 17, 2028, midnight Central Standard Time (UTC-6).
+    const target = new Date('2028-12-17T00:00:00-06:00').getTime();
     function updateCountdown() {
-      let seconds = Math.max(0, Math.floor((retirementDate.getTime() - Date.now()) / 1000));
-      const days = Math.floor(seconds / 86400);
-      seconds %= 86400;
-      const hours = Math.floor(seconds / 3600);
-      seconds %= 3600;
-      const minutes = Math.floor(seconds / 60);
-      seconds %= 60;
-      output.textContent = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+      let remaining = Math.max(0, target - Date.now());
+      const days = Math.floor(remaining / 86400000);
+      remaining %= 86400000;
+      const hours = Math.floor(remaining / 3600000);
+      remaining %= 3600000;
+      const minutes = Math.floor(remaining / 60000);
+      const seconds = Math.floor((remaining % 60000) / 1000);
+      document.getElementById('days').textContent = `${days} Days`;
+      document.getElementById('hours').textContent = `${hours} Hours`;
+      document.getElementById('minutes').textContent = `${minutes} Minutes`;
+      document.getElementById('seconds').textContent = `${seconds} Seconds`;
     }
     updateCountdown();
     setInterval(updateCountdown, 1000);
