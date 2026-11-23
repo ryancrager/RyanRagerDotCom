@@ -1,13 +1,34 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ryan Rager</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retirement Countdown</title>
+  <style>
+    body { background: white; color: black; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 20vh 16px 0; }
+    #countdown { font-size: clamp(20px, 5vw, 40px); }
+  </style>
 </head>
 <body>
-    <h1>Welcome to RyanRager.com</h1>
-    <p>Website coming soon!</p>
+  <h1>Time Until Retirement</h1>
+  <div id="countdown" aria-live="off"></div>
+  <script>
+    // Change only this date and time if needed (ISO format with timezone offset).
+    const retirementDate = new Date('2028-12-17T00:00:00-06:00');
+    const output = document.getElementById('countdown');
+
+    function updateCountdown() {
+      let seconds = Math.max(0, Math.floor((retirementDate.getTime() - Date.now()) / 1000));
+      const days = Math.floor(seconds / 86400);
+      seconds %= 86400;
+      const hours = Math.floor(seconds / 3600);
+      seconds %= 3600;
+      const minutes = Math.floor(seconds / 60);
+      seconds %= 60;
+      output.textContent = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
 </body>
 </html>
